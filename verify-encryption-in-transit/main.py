@@ -16,13 +16,13 @@ def get_grades(mydomain):
     """
     retry=0
     grades = []
-    while retry<5:
+    while retry<10:
         data = ssllabsscanner.resultsFromCache(mydomain)
         grades = [ key.get('grade','') for key in data.get('endpoints',{}) ]
         if data.get('status', None) =='READY':
             break
         else:
-            print("Not yet in cache, trying again in 60 secs")
+            print("Result not yet in cache, trying again in 60 secs", flush=True)
             time.sleep(60)
             retry=retry+1
     return grades
