@@ -11,22 +11,26 @@ if __name__ == '__main__':
   args = parser.parse_args()
 
 params = {
-    "resource": args.resource,
-    "tenant" : args.tenant,
-    "authorityHostUrl" : "https://login.microsoftonline.com",
-    "clientId" : args.client_id,
-    "clientSecret" : args.client_secret
+  "resource": args.resource,
+  "tenant" : args.tenant,
+  "authorityHostUrl" : "https://login.microsoftonline.com",
+  "clientId" : args.client_id,
+  "clientSecret" : args.client_secret
 }
 
 authority_url = (params['authorityHostUrl'] + '/' + params['tenant'])
 
 context = adal.AuthenticationContext(
-    authority_url, validate_authority=params['tenant'] != 'adfs',
-    )
+  authority_url, validate_authority=params['tenant'] != 'adfs',
+  )
 
-token = context.acquire_token_with_client_credentials(
+try:
+  token = context.acquire_token_with_client_credentials(
     params['resource'],
     params['clientId'],
     params['clientSecret'])
+except Exception as e:
+  print(str(e))
+  exit(1)
 
-print("{} {}".format(token.tokenType, token.accessToken))
+print("{} {}".format(token.get("tokenType"), token.get("accessToken")))
