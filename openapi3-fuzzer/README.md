@@ -38,6 +38,7 @@ It was also quicker to write this than to figure out how other fully featured an
 2. POST requestBody schemas in application/json containing:
     * string
     * integer
+    * number
 
 ## Example output
 
