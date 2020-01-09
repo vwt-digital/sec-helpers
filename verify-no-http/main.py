@@ -23,7 +23,7 @@ def get_http_enabled(mydomain):
         return False
     else:
         print("GET request to http://{} returned status {}".format(mydomain,r.status_code))
-        if r.status_code == 301:
+        if r.status_code == 301 or r.status_code == 302:
             return False
         else:
             return True
