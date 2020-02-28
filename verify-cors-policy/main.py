@@ -7,7 +7,7 @@ def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('domain', type=str, help='Secured API url')
     parser.add_argument('type', type=str, help='type')
-    parser.add_argument('--resources', nargs='+', type=str, help='Resources to scan')
+    parser.add_argument('resource', type=str, help='Resources to scan')
 
     return parser.parse_args()
 
@@ -26,9 +26,8 @@ def scan_resource(resource, target):
 if __name__ == '__main__':
     passed = True
     args = parse_args()
-    if not args.resources or args.type != 'api':
+    if not args.resource or args.type != 'api':
         print("Skipping cors policy test")
         sys.exit(0)
-    for resource in args.resources:
-        print(str(resource) + (' \033[92mpassed\033[0m' if scan_resource(str(resource), args.domain) else ' \033[91mfailed\033[0m'))
+    print(str(args.resource) + (' \033[92mpassed\033[0m' if scan_resource(str(args.resource), args.domain) else ' \033[91mfailed\033[0m'))
     sys.exit(0 if passed else 1)
