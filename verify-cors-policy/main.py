@@ -14,7 +14,7 @@ def parse_args():
 
 def scan_resource(resource, target):
     global passed
-    res = requests.get(target, timeout=20, allow_redirects=False)
+    res = requests.get('https://{}'.format(target), timeout=20, allow_redirects=False)
     res_head = str(res.headers.get('Access-Control-Allow-Origin'))
     print("Allowed Origins: " + res_head)
     loc_passed = res_head == resource
