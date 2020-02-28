@@ -14,7 +14,7 @@ def scan(arguments):
     res = requests.get('https://{}'.format(arguments.domain), timeout=20, allow_redirects=False)
     res_head = res.headers.get('Access-Control-Allow-Origin')
 
-    if not res_head:
+    if not res_head or str(res_head) == '*':
         print("Failing policy test: No Allowed Origins Specified")
         return False
 
