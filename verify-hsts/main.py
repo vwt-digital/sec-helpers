@@ -2,7 +2,7 @@ import requests
 import argparse
 import sys
 import re
-import json
+
 
 def get_hsts_enabled(mydomain):
     """
@@ -19,18 +19,19 @@ def get_hsts_enabled(mydomain):
     """
     try:
         print("Starting GET request to http://{}".format(mydomain))
-        r = requests.get('https://{}'.format(mydomain), timeout=20, allow_redirects=False)
+        r = requests.get('https://{}'.format(mydomain), timeout=60, allow_redirects=False)
     except Exception as e:
-        print("Exception connecting to https://{} with {}".format(mydomain,str(e)))
+        print("Exception connecting to https://{} with {}".format(mydomain, str(e)))
         return False
     else:
-        print("Strict-Transport-Security header on https://{} returned {}".format(mydomain,r.headers.get('Strict-Transport-Security')))
+        print("Strict-Transport-Security header on https://{} returned {}".format(mydomain, r.headers.get('Strict-Transport-Security')))
         m = re.search(r'max-age=(\d+)', r.headers.get('Strict-Transport-Security', ''))
         max_age = int(m.group(1))
         if max_age >= 10368000:
             return True
         else:
             return False
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
