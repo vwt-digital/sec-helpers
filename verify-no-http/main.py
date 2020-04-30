@@ -2,6 +2,7 @@ import requests
 import argparse
 import sys
 
+
 def get_http_enabled(mydomain):
     """
     For a given domain, return a bool to signal if expected http behaviour is implemented.
@@ -17,16 +18,17 @@ def get_http_enabled(mydomain):
     """
     try:
         print("Starting GET request to http://{}".format(mydomain))
-        r = requests.get('http://{}'.format(mydomain), timeout=20, allow_redirects=False)
+        r = requests.get('http://{}'.format(mydomain), timeout=60, allow_redirects=False)
     except Exception as e:
-        print("Exception connecting to http://{} with {}".format(mydomain,str(e)))
+        print("Exception connecting to http://{} with {}".format(mydomain, str(e)))
         return False
     else:
-        print("GET request to http://{} returned status {}".format(mydomain,r.status_code))
+        print("GET request to http://{} returned status {}".format(mydomain, r.status_code))
         if r.status_code == 301 or r.status_code == 302:
             return False
         else:
             return True
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
