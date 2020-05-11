@@ -1,5 +1,7 @@
 #!/bin/bash
+echo "Running Cipherscan on $1"
 cipherscan=$(./cipherscan/cipherscan "$1")
+echo "Running Analyze on $1"
 analyzer=$(./cipherscan/analyze.py -t "$1")
 echo "$cipherscan"
 
@@ -33,5 +35,10 @@ fi
 
 if [ "$exit_code" -eq "0" ]; then
   echo "Testing was successful"
+fi
+
+if [ "$2" == "relaxed" ]; then
+  echo "Test is relaxed and will always return 0"
+  exit_code=0
 fi
 exit $exit_code
