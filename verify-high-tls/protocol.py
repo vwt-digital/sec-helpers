@@ -1,11 +1,11 @@
 import ssl
 _protocols = {
     "TLS1.0": {
-        "denied": True,
+        "denied": False,
         "notation": ssl.PROTOCOL_TLSv1
     },
     "TLS1.1": {
-        "denied": True,
+        "denied": False,
         "notation": ssl.PROTOCOL_TLSv1_1
     },
     "TLS1.2": {
