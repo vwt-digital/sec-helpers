@@ -6,8 +6,10 @@ from ssl import SSLContext, SSLError
 if len(argv) != 2:
     print("Expected one argument: hostname")
     exit(1)
+
 hostname = argv[1]
 exit_code = 0
+
 for protocol in _protocols:
     failed = False
     try:
