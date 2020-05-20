@@ -22,13 +22,12 @@ def get_protocol_enabled(domain: str, url_pre: str = "http") -> bool:
         r = requests.get('{}://{}'.format(url_pre, domain), timeout=60, allow_redirects=False)
     except Exception as e:
         print("Exception connecting to {}://{} with {}".format(url_pre, domain, str(e)))
-        return False
+        return False if url_pre == 'http' else True
     else:
         print("GET request to {}://{} returned status {}".format(url_pre, domain, r.status_code))
-        if r.status_code == 301 or r.status_code == 302:
+        if r.status_code == 301 or (r.status_code == 302 and url_pre == 'http'):
             return False
-        else:
-            return True
+        return True
 
 
 if __name__ == '__main__':
