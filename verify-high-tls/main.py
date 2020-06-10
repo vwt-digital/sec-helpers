@@ -1,44 +1,61 @@
 from socket import gaierror, create_connection
-from sys import exit, argv
-from protocol import _protocols
+import sys
 from ssl import SSLContext, SSLError
+from typing import List
+import argparse
+import urllib.request
+import json
+from protocol import DefinedProtocol
 
-if len(argv) != 2:
-    print("Expected one argument: hostname")
-    exit(1)
+_configurations = []
 
-hostname = argv[1]
-exit_code = 0
 
-for protocol in _protocols:
+def load_recommendations() -> List:
 
-    failed = False
-    connected_with = None
-    cipher = None
-    try:
-        with create_connection((hostname, 443)) as sock:
-            with SSLContext(_protocols[protocol]["notation"]).wrap_socket(sock, server_hostname=hostname) as ssock:
-                connected_with = ssock.version()
-                cipher = ssock.cipher()
-                failed = False
-    except gaierror:
-        print("{hostname} is not valid".format(hostname=hostname))
-        exit(1)
-    except ValueError:
-        failed = True
-    except SSLError:
-        failed = True
+    protocols = []
 
-    print("\nProtocol: {protocol}:\nActive: {failed}\nShould be active: {denied}".format(protocol=protocol, failed=not failed,
-                                                                                         denied=not _protocols[protocol]['denied']))
-    if connected_with:
-        print("Connected with: {connected_with}".format(connected_with=connected_with))
-    if cipher:
-        print("Using cipher: {cipher}".format(cipher=cipher))
-    if (not failed and _protocols[protocol]["denied"]) or \
-            (failed and not _protocols[protocol]["denied"]):
-        print("\033[91m\tWrong configuration\033[0m")
-        exit_code = 1
+    with urllib.request.urlopen("https://ssl-config.mozilla.org/guidelines/latest.json")as url:
+        data = json.loads(url.read().decode())
+        for configuration, level in data['configurations'].items():
+            for version in level['tls_versions']:
+                if version not in _configurations:
+                    protocols.append(DefinedProtocol(version, configuration))
+                    _configurations.append(version)
+    return protocols
 
-print("\nTest on {hostname} ".format(hostname=hostname) + ("\033[91mfailed\033[0m" if exit_code == 1 else "\033[94mpassed\033[0m"))
-exit(exit_code)
+
+def check_protocols(hostname: str, protocols: List) -> int:
+
+    exit_code = 0
+    for protocol in protocols:
+        print(f"\n-------\nProtocol: {protocol.protocol}\nShould be active: {protocol.is_allowed()}")
+        try:
+            with create_connection((hostname, 443)) as sock:
+                ctx = SSLContext(protocol.get_ssl_attribute())
+                for opposite in protocol.get_opposite_ssl_as_op_no(_configurations):
+                    ctx.options |= opposite
+                with ctx.wrap_socket(sock, server_hostname=hostname) as context_sock:
+                    print(f"Connected with: {context_sock.version()}")
+                    print(f"Using cipher: {context_sock.cipher()}")
+                    failed = False
+        except gaierror:
+            print(f"{hostname} is not valid")
+            return 1
+        except (ValueError, SSLError):
+            failed = True
+
+        if (failed and protocol.is_allowed()) or (not failed and not protocol.is_allowed()):
+            print("\033[91m\tWrong configuration\033[0m")
+            exit_code = 1
+
+    print(f"\nTest on {hostname} \033[91mfailed\033[0m" if exit_code == 1 else "\033[94mpassed\033[0m")
+    return exit_code
+
+
+if __name__ == '__main__':
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('domain', type=str, help='Domain to scan')
+    args = parser.parse_args()
+
+    sys.exit(check_protocols(args.domain, load_recommendations()))
