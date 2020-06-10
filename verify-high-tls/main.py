@@ -24,7 +24,7 @@ def load_recommendations() -> List:
     return protocols
 
 
-def check_protocols(hostname: str, protocols: List) -> int:
+def check_protocols(hostname: str, protocols: List, force_passed: bool = False) -> int:
 
     exit_code = 0
     for protocol in protocols:
@@ -49,13 +49,16 @@ def check_protocols(hostname: str, protocols: List) -> int:
             exit_code = 1
 
     print(f"\nTest on {hostname} \033[91mfailed\033[0m" if exit_code == 1 else "\033[94mpassed\033[0m")
-    return exit_code
+    if force_passed:
+        print(f"But we'll let it slide for now (remove --force-pass flag before test)")
+    return exit_code if not force_passed else 0
 
 
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
     parser.add_argument('domain', type=str, help='Domain to scan')
+    parser.add_argument('--force-pass', dest='force_pass', action='store_true')
     args = parser.parse_args()
 
-    sys.exit(check_protocols(args.domain, load_recommendations()))
+    sys.exit(check_protocols(args.domain, load_recommendations(), args.force_pass))
