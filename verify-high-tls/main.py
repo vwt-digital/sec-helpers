@@ -49,8 +49,8 @@ def check_protocols(hostname: str, protocols: List, force_passed: bool = False) 
             exit_code = 1
 
     print(f"\nTest on {hostname} \033[91mfailed\033[0m" if exit_code == 1 else "\033[94mpassed\033[0m")
-    if force_passed:
-        print(f"But we'll let it slide for now (remove --force-pass flag before test)")
+    if force_passed and failed:
+        print(f"But we'll let it slide for now (you are testing an appspot domain)")
     return exit_code if not force_passed else 0
 
 
@@ -58,7 +58,6 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
     parser.add_argument('domain', type=str, help='Domain to scan')
-    parser.add_argument('--force-pass', dest='force_pass', action='store_true')
     args = parser.parse_args()
 
-    sys.exit(check_protocols(args.domain, load_recommendations(), args.force_pass))
+    sys.exit(check_protocols(args.domain, load_recommendations(), (args.domain.split('.')[-2] == 'appspot')))
