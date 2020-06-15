@@ -49,7 +49,7 @@ def check_protocols(hostname: str, protocols: List, force_passed: bool = False) 
             exit_code = 1
 
     print(f"\nTest on {hostname} \033[91mfailed\033[0m" if exit_code == 1 else "\033[94mpassed\033[0m")
-    if force_passed:
+    if force_passed and failed:
         print(f"But we'll let it slide for now (you are testing an appspot domain)")
     return exit_code if not force_passed else 0
 
