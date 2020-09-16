@@ -5,7 +5,7 @@ Sec-helpers is a bundle of useful tests and validators to ensure the security of
 
 ## Usage
 1. Select specifc sec-helper.
-2. Run `main.py` with a domain as parameter (strip domain of extra information: example.com): `python verify{test}/main.py {domain}.{tld}.
+2. Run `main.py` with a domain as parameter (strip domain of extra information: example.com): `python verify{test}/main.py {domain}.{tld}`.
 
 _Do you want all the sec-helpers ready in a container? Configure [cloudbuilders-dast](https://github.com/vwt-digital/cloudbuilder-dast)._
 
