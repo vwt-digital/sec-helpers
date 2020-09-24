@@ -1,7 +1,7 @@
 import argparse
 import ssl
 import re
-import subprocess
+import subprocess  # nosec
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -15,4 +15,4 @@ if __name__ == '__main__':
                 ssl.OPENSSL_VERSION))
         exit(1)
 
-    subprocess.call(['sh', 'verify-no-ssl/ssl3.sh', args.domain])
+    subprocess.call(['sh', 'verify-no-ssl/ssl3.sh', args.domain])  # nosec
