@@ -5,7 +5,7 @@ from typing import List
 import argparse
 import urllib.request
 import json
-from protocol import DefinedProtocol
+from .protocol import DefinedProtocol
 
 _configurations = []
 
