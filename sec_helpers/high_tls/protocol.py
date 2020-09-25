@@ -22,6 +22,7 @@ class DefinedProtocol:
         opposite_versions = []
         for version in versions:
             if not version == self.protocol:
-                opposite_versions.append(getattr(ssl, f"OP_NO_{version.replace('.', '_')}"))
+                opposite_versions \
+                    .append(getattr(ssl, f"OP_NO_{version.replace('.', '_')}"))
 
         return opposite_versions
