@@ -15,7 +15,7 @@ class NoSsl:
                 '(1.0.2): '
                 'https://www.openssl.org/source/old/1.0.2'.format(
                     ssl.OPENSSL_VERSION))
-        if subprocess.call(['bash',  # nosec
-                            '{}/ssl3.sh'.format(path.dirname(  # nosec
+        elif subprocess.call(['bash',  # nosec
+                              '{}/ssl3.sh'.format(path.dirname(  # nosec
                                 path.realpath(__file__))), domain]):
             sys.exit(1)
