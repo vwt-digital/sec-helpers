@@ -44,5 +44,7 @@ class Hsts:
                         'Strict-Transport-Security')))
             m = re.search(r'max-age=(\d+)',
                           r.headers.get('Strict-Transport-Security', ''))
-            max_age = int(m.group(1))
+            max_age = -1
+            if m:
+                max_age = int(m.group(1))
             return max_age >= self.age
