@@ -37,7 +37,7 @@ New ideas or enhancements are always helpful and welcome! To help us understand 
 
 - **Use a clear title** and be descriptive.
 - Start the issue with **a description of what component will need to receive the enhancement**. This allows us to read the rest with a clear insight of what component we need to look at.
-- **Describe what the enhancement is and what is should do**. Be as clear as possible, and try to add possible outputs to the description.
+- **Describe what the enhancement is and what it should do**. Be as clear as possible, and try to add possible outputs to the description.
 - **Describe why the enhancement should be added** to the project.
 - Already changed some code? **Create a Pull Request** and link it to the suggestion!
 
@@ -58,8 +58,8 @@ Read [What should I know before I get started?](#what-should-i-know-before-i-get
 
 #### Message Guidelines 
 - Use past tense (Do: `Removed ...`, don't: `Remove ...`. Do: `Added ...`, don't: `Add ...`)
-- Act as you take the action (Do: `Moved ...`, don't `Moves ...`)
-- Messages should not contain emojis. (Do: `Deleted ...`, don't: :apple: ...)
+- Act as you took the action (Do: `Moved ...`, don't `Moves ...`)
+- Messages should not contain emojis (Do: `Deleted ...`, don't: :apple: ...)
 - References to issues should be added, if possible (Do: `... #2`, don't: `... Trello-12`)
 - We use Jira Tickets, you shouldn't (Do: `... #2`, don't: `... DAT-0000`)
 
@@ -92,11 +92,11 @@ Running the following test/checks/validators/linters will increase the integrity
 - [eslint](https://eslint.org/)
 
 [Cloudbuilder-DAST](https://github.com/vwt-digital/cloudbuilder-dast): <br>
-*We run these tests on projects that are deployed and accessible on the web*
+*We run these tests on projects that are deployed and accessible to the web*
 - [Sec-helpers](https://pypi.org/project/sec-helpers/)
 
 [Cloudbuilder-unittest](https://github.com/vwt-digital/cloudbuilder-unittest): <br>
-*We run these tests on API projects that are deployed and accessible on the web*
+*We run these tests on API projects that are deployed and accessible to the web*
 - [Openapi3-fuzzer](https://pypi.org/project/openapi3-fuzzer/)
 
 Extra: <br>
