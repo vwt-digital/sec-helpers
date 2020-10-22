@@ -8,7 +8,6 @@ with open('requirements.txt') as f:
 setup(
     name='sec-helpers',
     packages=find_packages(),
-    package_data={'': ['sec-helpers/sec_helpers/no_ssl/ssl3.sh']},
     include_package_data=True,
     version=os.getenv('TAG_NAME', '0.0.0'),
     license='gpl-3.0',
