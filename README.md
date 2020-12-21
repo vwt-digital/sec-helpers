@@ -21,9 +21,8 @@ sec_helpers.NoSsl(domain=domain)
 _Do you want all the sec-helpers ready in a container? Configure [cloudbuilders-dast](https://github.com/vwt-digital/cloudbuilder-dast)._
 
 ##### Exception
-`NoSsl` requires [openssl-1.0.2](https://www.openssl.org/source/old/1.0.2/openssl-1.0.2k.tar.gz) and can be run using the following: <br>
-`sec_helpers.NoSsl(domain={domain}.{tld})`,
-but will result in exit code 0 when the wrong openssl version is present.
+'NoSsl' requires and OpenSSL version with SSLv3 enabled. Check this [Dockerfile](https://github.com/vwt-digital/cloudbuilder-dast/blob/develop/Dockerfile) and can be run using the following: <br>
+`sec_helpers.NoSsl(domain={domain}.{tld})`, but will result in exit code 0 when the wrong openssl version is present.
 
 ### Helpers
 **NoHttp**
@@ -98,7 +97,3 @@ __________
 Failing policy test: No Allowed Origins Specified
 ```
 No allowed origins specified. CorsPolicy failed.
-
-## Dependencies
-* Python >= 3.6
-* (specific for `NoSsl`) = [openssl-1.0.2](https://www.openssl.org/source/old/1.0.2/openssl-1.0.2k.tar.gz)
