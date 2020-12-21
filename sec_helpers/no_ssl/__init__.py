@@ -18,6 +18,10 @@ class NoSsl:
             print("openssl does not support SSLv3")
             return False
 
+        if str(ossl.stderr).find("no protocols available") != -1:
+            print("no protocols available")
+            return False
+
         if ossl.returncode == 1:
             print('No sign of SSLv3 allowance found')
             return True
